@@ -15,7 +15,6 @@
 
 # Configurable vars
 mcfly_dir_name="McFly"
-exclude_file=$drive_source/.rsync-exclude
 
 # OSX Note: the system's rsync sucks. Get the one from homebrew-dupes.
 rsync=/usr/local/bin/rsync
@@ -29,6 +28,7 @@ host=`hostname -s`
 # What to backup
 drive_source=$from
 dir_source=`basename $from`
+exclude_file=$drive_source/.rsync-exclude
 
 # Where and how to name it
 path_dest=$to/$mcfly_dir_name/$host-$dir_source

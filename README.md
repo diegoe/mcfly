@@ -26,16 +26,20 @@ This will create the directory:
 /media/diego/backup-drive/McFly/bellota-diego/
 
 With these files:
-- 2013_01_21T05_10_21.log
-- current -> 2013_01_21T05_10_21/
-- 2013_01_21T05_10_21/
+```
+2013_01_21T05_10_21.log
+current -> 2013_01_21T05_10_21/
+2013_01_21T05_10_21/
+```
 
 My next call to mcfly.sh would create something like this:
-- 2013_01_21T05_10_21.log
-- 2013_01_21T05_10_21/
-- 2013_01_22T15_42_10.log
-- 2013_01_22T15_42_10/
-- current -> 2013_01_22T15_42_10/
+```
+2013_01_21T05_10_21.log
+2013_01_21T05_10_21/
+2013_01_22T15_42_10.log
+2013_01_22T15_42_10/
+current -> 2013_01_22T15_42_10/
+```
 
 Both backups are fully browsable and restorable. But they are sharing
 any data that has not been modified.
