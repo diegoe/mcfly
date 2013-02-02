@@ -4,6 +4,18 @@ mcfly
 A really simple rsync script to make backups based on any system with
 support for hard links, works like Time Machine.
 
+My selfish goal is to have realiable backups that can be created and
+read in OSX and GNU/Linux with nothing but the most basic UNIX tools.
+
+My current use case, besides safe keeping photos and documents, is
+snapshotting complex video projects as they go. It is kinda of my very
+own, and extremely low tech, git for FinalCut.
+
+You will notice that the default configuration is very OSX friendly, but
+it works as easy with GNU/Linux.
+
+This is constantly tested on Debian unstable and OSX Snow Leopard.
+
 How it works
 =====
 
