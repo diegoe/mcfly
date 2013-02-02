@@ -44,6 +44,13 @@ current -> 2013_01_22T15_42_10/
 Both backups are fully browsable and restorable. But they are sharing
 any data that has not been modified.
 
+Extra credit
+=====
+
+I humbly suggest that you install brew, and then brew install rsync.
+ * Get homebrew: http://mxcl.github.com/homebrew/
+ * Add the rsync recipe: https://github.com/Homebrew/homebrew-dupes/
+
 
 I'm considering porting this to Python, just because I like Python.
 Please tell me about any problem, bug, or idea.

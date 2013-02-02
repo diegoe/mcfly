@@ -1,20 +1,20 @@
 #!/bin/bash
-# McFly - an rsync based, snapshot backups script
+# mcfly - an rsync based, snapshot backups script
 #
 # Author: Diego Escalante Urrelo <diegoe@gnome.org>
 # URL: http://github.com/diegoe/mcfly
 #
-# Arguments: ./mcfly.sh dir-to-backup destination-drive
+# Arguments: ./mcfly dir-to-backup destination-drive
 #
 # Inspired by
 #   http://blog.interlinked.org/tutorials/rsync_time_machine.html
 #   http://blog.interlinked.org/tutorials/rsync_addendum.yaml.html
 
 # Uncomment for lots of debugging
-#set -x
+# set -x
 
 # Configurable vars
-mcfly_dir_name="McFly"
+mcfly_dir_name="mcfly-osx"
 
 # OSX Note: the system's rsync sucks. Get the one from homebrew-dupes.
 rsync=/usr/local/bin/rsync
@@ -31,24 +31,21 @@ dir_source=`basename $from`
 exclude_file=$drive_source/.rsync-exclude
 
 # Where and how to name it
-path_dest=$to/$mcfly_dir_name/$host-$dir_source
-dir_dest=$date
+path_dest=$to/$mcfly_dir_name
+dir_dest=$dir_source-$date
 tmp_dest=$path_dest/incomplete-$dir_dest
 permanent_dest=$path_dest/$dir_dest
 
 # This path is relative to $dir_dest
-link_dest=../current
+link_dest=../$dir_source-current
 
-
-# Don't touch anything is the dir exists
+# Don't touch anything if the dir exists
 if [ -d $permanent_dest ]; then
     exit;
 fi
 
-mkdir -p $path_dest
-
 # Check that there's a current symlink
-if [ ! -h $path_dest/current ]; then
+if [ ! -h $path_dest/$dir_source-current ]; then
     exit;
 fi
 
@@ -77,27 +74,54 @@ fi
 # WARNING: I have no clue if this attribute holds important information
 # on certain filetypes. For me, it has not been a problem. Be careful.
 
+# Linux note: when copying to a different FS, xattrs might not be
+# preserved, and will make rsync "fail", preventing the later steps from
+# happening.
+#
+# Remove the -X option to avoid this. This should be safe, unless you
+# explicitely need xattr of some file.
+
+# Linux note: rsync can copy symlinks that point to other filesystems,
+# even if they are broken. This is a problem later when hard linking.
+# The solution is to use --copy-links or --safe-links.
+
 # Other useful options:
-#  --exclude-from=$exclude_file \
 #  --extended-attributes \
 #  --dry-run \
 
 # A reference of the codes printed by --itemize
 #   http://pagesofinterest.net/blog/2010/11/rsync-itemize-output-codes/
 
+# A suggested list of excludes for OSX is inlined.
+
+# IT DOES NOT WORK! OMG!
+# That is because I intentionally leave the -n (dry-run) switch when
+# committing to the repository. This is for everyone's safety.
+#
+# Just remove the line and mcfly will be execute your instructions.
+
 $rsync \
-  --archive \
-  --no-g \
-  -X \
+  -rpto \
+  -n \
   --modify-window=5 \
   --verbose --itemize-changes \
   --human-readable \
-  --delete-after \
-  --delete-excluded \
+  --delete \
+  --exclude=".Trash/" \
+  --exclude="Documents/Final Cut Pro Documents/Render Files/" \
+  --exclude="Documents/Final Cut Pro Documents/Waveform Cache Files/" \
+  --exclude="Documents/Final Cut Pro Documents/Thumbnail Cache Files/" \
+  --exclude="Documents/Final Cut Pro Documents/Audio Render Files/" \
+  --exclude="Library/Application Support/" \
+  --exclude="Library/Caches" \
+  --exclude="Library/Preferences/Macromedia/" \
   --log-file=$tmp_dest.log \
   --link-dest=$link_dest \
-  $drive_source $tmp_dest \
-&& mv $tmp_dest $permanent_dest \
+  $drive_source $tmp_dest
+
+# Move to final destination, if this fails then nothing else gets
+# executed.
+mv $tmp_dest $permanent_dest \
 && mv $tmp_dest.log $permanent_dest.log \
 && rm -f $path_dest/current \
-&& ln -s $path_dest/$dir_dest $path_dest/current
+&& ln -s $dir_dest $path_dest/current
