@@ -37,7 +37,8 @@ tmp_dest=$path_dest/incomplete-$dir_dest
 permanent_dest=$path_dest/$dir_dest
 
 # This path is relative to $dir_dest
-link_dest=../$dir_source-current
+current_link=$dir_source-current
+link_dest=../$current_link
 
 # Don't touch anything if the dir exists
 if [ -d $permanent_dest ]; then
@@ -45,7 +46,7 @@ if [ -d $permanent_dest ]; then
 fi
 
 # Check that there's a current symlink
-if [ ! -h $path_dest/$dir_source-current ]; then
+if [ ! -h $path_dest/$current_link ]; then
     exit;
 fi
 
@@ -124,5 +125,5 @@ $rsync \
 # executed.
 mv $tmp_dest $permanent_dest \
 && mv $tmp_dest.log $permanent_dest.log \
-&& rm -f $path_dest/$dir_source-current \
-&& ln -s $dir_dest $path_dest/$dir_source-current
+&& rm -f $path_dest/$current_link \
+&& ln -s $dir_dest $path_dest/$current_link
