@@ -106,6 +106,7 @@ $rsync \
   --modify-window=5 \
   --verbose --itemize-changes \
   --human-readable \
+  --safe-links \
   --delete \
   --exclude=".Trash/" \
   --exclude="Documents/Final Cut Pro Documents/Render Files/" \
@@ -123,5 +124,5 @@ $rsync \
 # executed.
 mv $tmp_dest $permanent_dest \
 && mv $tmp_dest.log $permanent_dest.log \
-&& rm -f $path_dest/current \
-&& ln -s $dir_dest $path_dest/current
+&& rm -f $path_dest/$dir_source-current \
+&& ln -s $dir_dest $path_dest/$dir_source-current
