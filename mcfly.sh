@@ -116,6 +116,9 @@ $rsync \
   --exclude="Documents/Final Cut Pro Documents/Audio Render Files/" \
   --exclude="Library/Application Support/" \
   --exclude="Library/Caches" \
+  --exclude="Library/Google" \
+  --exclude="Music/" \
+  --exclude="Downloads/" \
   --exclude="Library/Preferences/Macromedia/" \
   --log-file=$tmp_dest.log \
   --link-dest=$link_dest \
