@@ -109,6 +109,7 @@ $rsync \
   --human-readable \
   --safe-links \
   --delete \
+  --safe-links \
   --exclude=".Trash/" \
   --exclude="Documents/Final Cut Pro Documents/Render Files/" \
   --exclude="Documents/Final Cut Pro Documents/Waveform Cache Files/" \
