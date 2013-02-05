@@ -14,7 +14,7 @@
 # set -x
 
 # Configurable vars
-mcfly_dir_name="mcfly-osx"
+mcfly_dir_name="mcfly"
 
 # OSX Note: the system's rsync sucks. Get the one from homebrew-dupes.
 rsync=/usr/local/bin/rsync
