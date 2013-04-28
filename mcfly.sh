@@ -100,6 +100,9 @@ fi
 # committing to the repository. This is for everyone's safety.
 #
 # Just remove the line and mcfly will be execute your instructions.
+  #--exclude="Library/Google" \
+  #--exclude="Library/Caches" \
+  #--exclude="Music/" \
 
 $rsync \
   -rpto \
@@ -107,21 +110,19 @@ $rsync \
   --modify-window=5 \
   --verbose --itemize-changes \
   --human-readable \
-  --safe-links \
   --delete \
+  --links \
   --safe-links \
-  --exclude=".Trash/" \
   --exclude="Documents/Final Cut Pro Documents/Render Files/" \
   --exclude="Documents/Final Cut Pro Documents/Waveform Cache Files/" \
   --exclude="Documents/Final Cut Pro Documents/Thumbnail Cache Files/" \
   --exclude="Documents/Final Cut Pro Documents/Audio Render Files/" \
-  --exclude="Library/Application Support/" \
-  --exclude="Library/Caches" \
-  --exclude=".cache/" \
-  --exclude="Library/Google" \
-  --exclude="Music/" \
-  --exclude="Downloads/" \
+  --exclude="Library/Caches/" \
   --exclude="Library/Preferences/Macromedia/" \
+  --exclude=".cache/" \
+  --exclude=".Trash/" \
+  --exclude="Downloads/" \
+  --exclude="Dropbox/" \
   --log-file=$tmp_dest.log \
   --link-dest=$link_dest \
   $drive_source $tmp_dest
